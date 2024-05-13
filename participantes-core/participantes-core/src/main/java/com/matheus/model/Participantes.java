@@ -1,0 +1,29 @@
+package com.matheus.model;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.Data;
+
+@Data
+@Entity
+public class Participantes {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonProperty("_id")
+    private long id;
+
+    @Column(length = 200, nullable = false)
+    private String nome;
+
+    @Column(length = 11, nullable = false)
+    private String cpf;
+
+    @Column(length = 20, nullable = false)
+    private String telefone;
+}
