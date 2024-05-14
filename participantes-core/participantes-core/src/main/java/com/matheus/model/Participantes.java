@@ -26,4 +26,13 @@ public class Participantes {
 
     @Column(length = 20, nullable = false)
     private String telefone;
+
+    @Column(length = 20, nullable = true)
+    private String sexo;
+
+    @Column(length = 20, nullable = true)
+    private String civil;
+
+    @Column(length = 400, nullable = true)
+    private String observacao;
 }
