@@ -20,8 +20,8 @@ import org.hibernate.annotations.SQLRestriction;
 @Data
 @Entity
 
-@SQLDelete(sql = "UPDATE Participantes SET status = 'INATIVO' WHERE id = ?")
-@SQLRestriction("status <> 'INATIVO'")
+@SQLDelete(sql = "UPDATE Participantes SET status = 'Ativo' WHERE id = ?")
+@SQLRestriction("status = 'Ativo'")
 public class Participantes {
 
     @Id
@@ -61,7 +61,7 @@ public class Participantes {
 
     @NotNull
     @Length(max = 10)
-    @Pattern(regexp = "ATIVO|INATIVO")
+    @Pattern(regexp = "Ativo|Inativo")
     @Column(length = 10, nullable = false)
     private String status = "Ativo";
 }
