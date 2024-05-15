@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.matheus.model.Participantes;
+import com.matheus.dto.ParticipantesDTO;
 import com.matheus.service.ParticipanteService;
 
 import jakarta.validation.Valid;
@@ -33,25 +33,25 @@ public class ParticipantesController {
     }
 
     @GetMapping
-    public List<Participantes> list() {
+    public List<ParticipantesDTO> list() {
         return participanteService.list();
     }
 
     @GetMapping("/{id}")
-    public Participantes findById(@PathVariable @NotNull @Positive Long id) {
+    public ParticipantesDTO findById(@PathVariable @NotNull @Positive Long id) {
         return participanteService.findById(id);               
     }
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Participantes create(@RequestBody @Valid Participantes participantes) {
+    public ParticipantesDTO create(@RequestBody @Valid @NotNull ParticipantesDTO participantes) {
 
         return participanteService.create(participantes);
     }
 
     @PutMapping("/{id}")
-    public Participantes update(@PathVariable @NotNull @Positive Long id,
-            @RequestBody @Valid Participantes participantes) {
+    public ParticipantesDTO update(@PathVariable @NotNull @Positive Long id,
+            @RequestBody @Valid @NotNull ParticipantesDTO participantes) {
         return participanteService.update(id, participantes);
     }
 

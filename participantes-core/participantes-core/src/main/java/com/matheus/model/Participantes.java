@@ -20,7 +20,7 @@ import org.hibernate.annotations.SQLRestriction;
 @Data
 @Entity
 
-@SQLDelete(sql = "UPDATE Participantes SET status = 'Ativo' WHERE id = ?")
+@SQLDelete(sql = "UPDATE Participantes SET status = 'inativo' WHERE id = ?")
 @SQLRestriction("status = 'Ativo'")
 public class Participantes {
 
@@ -48,10 +48,12 @@ public class Participantes {
     private String telefone;
 
     @Length(max = 20)
+    @Pattern(regexp = "masculino|femino")
     @Column(length = 20, nullable = true)
     private String sexo;
 
     @Length(max = 20)
+    @Pattern(regexp = "solteiro|casado|divorciado|viuvo")
     @Column(length = 20, nullable = true)
     private String civil;
 
