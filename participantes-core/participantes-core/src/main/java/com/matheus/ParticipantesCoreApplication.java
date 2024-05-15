@@ -24,6 +24,7 @@ public class ParticipantesCoreApplication {
 			p.setNome("matheus");
 			p.setCpf("12312312312");
 			p.setTelefone("40028922");
+			p.setStatus("Ativo");
 
 			participantesRepository.save(p);
 
