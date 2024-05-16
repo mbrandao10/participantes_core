@@ -23,16 +23,20 @@ public class ParticipantesCoreApplication {
 		return args -> {
 			participantesRepository.deleteAll();
 
-			Participantes p = new Participantes();
-			p.setNome("matheus");
-			p.setCpf("12312312312");
-			p.setTelefone("40028922");
-			p.setSexo(Sexo.MASCULINO);
-			p.setCivil(Civil.CASADO);
-			p.setStatus(Status.ATIVO);
-			
+			for (int i = 0; i < 20; i++) {
 
-			participantesRepository.save(p);
+				Participantes p = new Participantes();
+				p.setNome("matheus" + i);
+				p.setCpf("12312312312");
+				p.setTelefone("40028922");
+				p.setSexo(Sexo.MASCULINO);
+				p.setCivil(Civil.CASADO);
+				p.setStatus(Status.ATIVO);
+				
+
+				participantesRepository.save(p);
+
+			}
 
 		};
 		
