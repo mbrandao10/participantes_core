@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.matheus.dto.ParticipantesDTO;
 import com.matheus.dto.mapper.ParticipanteMapper;
@@ -35,7 +34,7 @@ public class ParticipanteService {
                 .collect(Collectors.toList());
     }
 
-    public ParticipantesDTO findById(@PathVariable @NotNull @Positive Long id) {
+    public ParticipantesDTO findById(@NotNull @Positive Long id) {
         return participantesRepository.findById(id).map(participanteMapper::toDTO)
                 .orElseThrow(() -> new RecordNotFoundException(id));
     }
@@ -50,14 +49,14 @@ public class ParticipanteService {
                     recordFound.setNome(participantes.nome());
                     recordFound.setCpf(participantes.cpf());
                     recordFound.setTelefone(participantes.telefone());
-                    recordFound.setSexo(participantes.sexo());
-                    recordFound.setCivil(participantes.civil());
+                    recordFound.setSexo(participanteMapper.convertSexoValue(participantes.sexo()));
+                    recordFound.setCivil(participanteMapper.convertCivilValue(participantes.civil()));
                     recordFound.setObservacao(participantes.observacao());
                     return participanteMapper.toDTO(participantesRepository.save(recordFound));
                 }).orElseThrow(() -> new RecordNotFoundException(id));
     }
 
-    public void delete(@PathVariable @NotNull @Positive Long id) {
+    public void delete(@NotNull @Positive Long id) {
 
         participantesRepository.delete(participantesRepository.findById(id)
             .orElseThrow(() -> new RecordNotFoundException(id))
