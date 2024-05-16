@@ -1,7 +1,5 @@
 package com.matheus.controller;
 
-import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,15 +8,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.matheus.dto.ParticipantePageDTO;
 import com.matheus.dto.ParticipantesDTO;
 import com.matheus.service.ParticipanteService;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
+
 import org.springframework.web.bind.annotation.PutMapping;
 
 @Validated
@@ -33,8 +36,9 @@ public class ParticipantesController {
     }
 
     @GetMapping
-    public List<ParticipantesDTO> list() {
-        return participanteService.list();
+    public ParticipantePageDTO list(@RequestParam(defaultValue = "0") @PositiveOrZero int page,
+            @RequestParam(defaultValue = "10") @Positive @Max(100) int pageSize) {
+        return participanteService.list(page, pageSize);
     }
 
     @GetMapping("/{id}")
