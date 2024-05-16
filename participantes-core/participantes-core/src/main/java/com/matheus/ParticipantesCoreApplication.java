@@ -5,6 +5,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import com.matheus.enums.Civil;
+import com.matheus.enums.Sexo;
+import com.matheus.enums.Status;
 import com.matheus.model.Participantes;
 import com.matheus.repository.ParticipantesRepository;
 
@@ -24,7 +27,10 @@ public class ParticipantesCoreApplication {
 			p.setNome("matheus");
 			p.setCpf("12312312312");
 			p.setTelefone("40028922");
-			p.setStatus("Ativo");
+			p.setSexo(Sexo.MASCULINO);
+			p.setCivil(Civil.CASADO);
+			p.setStatus(Status.ATIVO);
+			
 
 			participantesRepository.save(p);
 

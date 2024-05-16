@@ -1,13 +1,14 @@
 package com.matheus.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
 
+import com.matheus.dto.ParticipantesDTO;
+import com.matheus.dto.mapper.ParticipanteMapper;
 import com.matheus.exception.RecordNotFoundException;
-import com.matheus.model.Participantes;
 import com.matheus.repository.ParticipantesRepository;
 
 import jakarta.validation.Valid;
@@ -19,37 +20,43 @@ import jakarta.validation.constraints.Positive;
 public class ParticipanteService {
 
     private final ParticipantesRepository participantesRepository;
+    private final ParticipanteMapper participanteMapper;
 
-    public ParticipanteService(ParticipantesRepository participantesRepository) {
+    public ParticipanteService(ParticipantesRepository participantesRepository, ParticipanteMapper participanteMapper) {
         this.participantesRepository = participantesRepository;
+        this.participanteMapper = participanteMapper;
     }
 
-    public List<Participantes> list() {
-        return participantesRepository.findAll();
+    public List<ParticipantesDTO> list() {
+        return participantesRepository.findAll()
+                .stream()
+                .map(participanteMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
-    public Participantes findById(@PathVariable @NotNull @Positive Long id) {
-        return participantesRepository.findById(id).orElseThrow(() -> new RecordNotFoundException(id));
+    public ParticipantesDTO findById(@NotNull @Positive Long id) {
+        return participantesRepository.findById(id).map(participanteMapper::toDTO)
+                .orElseThrow(() -> new RecordNotFoundException(id));
     }
 
-    public Participantes create(@Valid Participantes participantes) {
-        return participantesRepository.save(participantes);
+    public ParticipantesDTO create(@Valid @NotNull ParticipantesDTO participantes) {
+        return participanteMapper.toDTO(participantesRepository.save(participanteMapper.toEntity(participantes)));
     }
 
-    public Participantes update(@NotNull @Positive Long id, @Valid Participantes participantes) {
+    public ParticipantesDTO update(@NotNull @Positive Long id, @Valid @NotNull ParticipantesDTO participantes) {
         return participantesRepository.findById(id)
                 .map(recordFound -> {
-                    recordFound.setNome(participantes.getNome());
-                    recordFound.setCpf(participantes.getCpf());
-                    recordFound.setTelefone(participantes.getTelefone());
-                    recordFound.setSexo(participantes.getSexo());
-                    recordFound.setCivil(participantes.getCivil());
-                    recordFound.setObservacao(participantes.getObservacao());
-                    return participantesRepository.save(recordFound);
+                    recordFound.setNome(participantes.nome());
+                    recordFound.setCpf(participantes.cpf());
+                    recordFound.setTelefone(participantes.telefone());
+                    recordFound.setSexo(participanteMapper.convertSexoValue(participantes.sexo()));
+                    recordFound.setCivil(participanteMapper.convertCivilValue(participantes.civil()));
+                    recordFound.setObservacao(participantes.observacao());
+                    return participanteMapper.toDTO(participantesRepository.save(recordFound));
                 }).orElseThrow(() -> new RecordNotFoundException(id));
     }
 
-    public void delete(@PathVariable @NotNull @Positive Long id) {
+    public void delete(@NotNull @Positive Long id) {
 
         participantesRepository.delete(participantesRepository.findById(id)
             .orElseThrow(() -> new RecordNotFoundException(id))
