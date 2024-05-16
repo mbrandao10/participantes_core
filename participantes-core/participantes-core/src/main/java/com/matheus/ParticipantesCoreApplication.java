@@ -4,6 +4,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 
 import com.matheus.enums.Civil;
 import com.matheus.enums.Sexo;
@@ -19,6 +20,7 @@ public class ParticipantesCoreApplication {
 	}
 
 	@Bean
+	@Profile("test")
 	CommandLineRunner initDatabase(ParticipantesRepository participantesRepository) {
 		return args -> {
 			participantesRepository.deleteAll();
